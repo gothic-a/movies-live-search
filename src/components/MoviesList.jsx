@@ -3,24 +3,29 @@ import { useLocation, Link } from 'react-router-dom'
 
 import storeContext from '../storeContext'
 import movieDB from '../services/movieDB'
+import Spinner from './Spinner'
+import NothingFound from './NothingFound'
 
 const MoviesList = () => {
     const movieService = new movieDB() 
     const { state: { moviesList }, dispatch } = useContext(storeContext)
+    const [loading, setLoading] = useState(false)
 
     const useQuery = () => new URLSearchParams(useLocation().search)
     const query = useQuery().get('query')
 
-    let temp = moviesList.length ? moviesList[1] : null
-
     useEffect(async () => {
+
+        setLoading(true)
         const movies = await movieService.getMovies(query)
         dispatch({type: 'SET_MOVIES_LIST', payload: movies})
+        setLoading(false)
 
-        return () => dispatch({type: 'SET_MOVIES_LIST', payload: {movies: [], page: null}})
     }, [query])
 
     const renderMoviesList = (movies) => {
+        console.log(movies)
+
         return movies.map((movie, idx) => {
             return (
                 <li className="movies-list-item" key={idx}>
@@ -41,10 +46,11 @@ const MoviesList = () => {
         })
     }
 
-
     return (
         <ul className="movies-list">
-            { renderMoviesList(moviesList) }
+            { loading ? <Spinner /> 
+                : moviesList.length ? renderMoviesList(moviesList) 
+                : <NothingFound /> }
         </ul>
     )
 }

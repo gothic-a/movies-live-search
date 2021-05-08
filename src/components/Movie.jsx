@@ -13,13 +13,13 @@ const Movie = ({id, genres, title, runtime, budget, overview, poster, production
                 <h2 className="title">{ title }</h2>
                 <div className="under-title">
                     <span className="studio">{ production }</span>
-                    <span className="date">Release: { date }</span>
+                    <span className="date">Release: { date || 'unknown' }</span>
                 </div>
                 
                 <p className="overview">{ overview }</p>
 
                 <div className="movie-ditails">
-                    <h4 data-directing-id={directing.id}><span>directing:</span> { directing.name }</h4>
+                    <h4 data-directing-id={directing.id}><span>directing:</span> { directing.name || 'unknown' }</h4>
                     <h4><span>runtime:</span> { _runtime }</h4>
                     <h4><span>budgete:</span> { budget } $</h4>
                     <ul className="genres">

@@ -1,14 +1,16 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import storeContext from '../storeContext'
+import NothingFound from './NothingFound'
+import Spinner from './Spinner'
 
-const SearchResultsList = () => {
+const SearchResultsList = ({ loading }) => {
 
-    const { state: { searchResults, loading }, dispatch } = useContext(storeContext) 
+    const { state: { searchResults }, dispatch } = useContext(storeContext) 
 
     const renderMoviesList = (data) => {
 
-        return data.map((item, idx) => {
+        return data.slice(0, 7).map((item, idx) => {
             return (
                 <li 
                     className="results-item" 
@@ -38,7 +40,11 @@ const SearchResultsList = () => {
             className='search-results-list' 
             onClick={onListClick}
         >
-            { !loading ? ( !!searchResults.length && renderMoviesList(searchResults.slice(0, 7)) ) : null }
+            { 
+                loading ? <Spinner /> 
+                    : searchResults.length ? renderMoviesList(searchResults) 
+                        : <NothingFound /> 
+            }
         </ul>
     )
 }

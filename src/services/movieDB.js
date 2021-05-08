@@ -31,13 +31,19 @@ class movieDB {
         cast = await cast.json()
 
         console.log(movie)
+        console.log(cast)
 
         return this.composeMovie(movie, cast)
     }
 
     composeMovie({ id, genres, original_title, budget, production_companies, release_date, runtime, overview, poster_path}, {cast, crew}) {
 
-        let directing = crew.find(p => p.department = 'Directing')
+        const sortedCrew = crew.sort((a, b) => {
+            return a.popularity - b.popularity
+        }).reverse().slice(0, 20)
+
+        let directing = sortedCrew.find(p => p.job.toLowerCase() === 'director') 
+        if(!directing) directing = sortedCrew.find(p => p.known_for_department.toLowerCase() === 'directing') 
 
         const parseCrew = (crew) => {
             let jobs = []
@@ -89,14 +95,14 @@ class movieDB {
             budget,
             overview,
             directing: {
-                id: directing.id,
-                name: directing.name,
+                id: !!directing && directing.id,
+                name: !!directing && directing.name,
             },
             poster: poster_path,
-            production: production_companies[0].name,
+            production: production_companies.length ? production_companies[0].name : null,
             people: {
-                cast: parseCast(cast.slice(0, 15)),
-                crew: parseCrew(crew.slice(0, 20))
+                cast: cast.length ? parseCast(cast.slice(0, 15)) : null,
+                crew: crew.length ? parseCrew(sortedCrew) : null,
             }
         }
     }

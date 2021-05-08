@@ -1,0 +1,13 @@
+.nothing-found {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    h2 {
+        align-self: center;
+        font-size: 2em;
+        font-weight: 300;
+        letter-spacing: 1px;
+        color: $main-color;
+    }
+}
