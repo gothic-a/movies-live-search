@@ -1,0 +1,23 @@
+@import './search-query-history.scss';
+@import './search-results-list.scss';
+
+.search-dropdown {
+    width: 100%;
+    position: absolute;
+    top: 66.5px;
+    left: 0;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0px 8px 13px -1px rgba(44, 51, 55, 0.2);
+    border-radius: 0 0 3px 3px;
+
+    .spinner {
+        transform: scale(.85);
+        height: 110px;
+    }
+
+    .nothing-found {
+        height: 110px;
+    }
+}
+

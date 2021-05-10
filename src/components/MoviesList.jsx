@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
 import storeContext from '../storeContext'
@@ -15,17 +15,16 @@ const MoviesList = () => {
     const query = useQuery().get('query')
 
     useEffect(async () => {
-
         setLoading(true)
         const movies = await movieService.getMovies(query)
         dispatch({type: 'SET_MOVIES_LIST', payload: movies})
         setLoading(false)
 
+        return () => console.log('sdf')
     }, [query])
 
     const renderMoviesList = (movies) => {
-        console.log(movies)
-
+        
         return movies.map((movie, idx) => {
             return (
                 <li className="movies-list-item" key={idx}>
@@ -46,10 +45,12 @@ const MoviesList = () => {
         })
     }
 
+    const movies = useMemo(() => renderMoviesList(moviesList), [moviesList])
+
     return (
         <ul className="movies-list">
             { loading ? <Spinner /> 
-                : moviesList.length ? renderMoviesList(moviesList) 
+                : movies.length ? movies 
                 : <NothingFound /> }
         </ul>
     )

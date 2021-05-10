@@ -30,20 +30,34 @@ class movieDB {
         let cast = await fetch(castUrl)
         cast = await cast.json()
 
-        console.log(movie)
-        console.log(cast)
-
         return this.composeMovie(movie, cast)
     }
 
     composeMovie({ id, genres, original_title, budget, production_companies, release_date, runtime, overview, poster_path}, {cast, crew}) {
 
-        const sortedCrew = crew.sort((a, b) => {
+        const sortedCrewByPopularity = crew.sort((a, b) => {
             return a.popularity - b.popularity
         }).reverse().slice(0, 20)
 
-        let directing = sortedCrew.find(p => p.job.toLowerCase() === 'director') 
-        if(!directing) directing = sortedCrew.find(p => p.known_for_department.toLowerCase() === 'directing') 
+        
+        const sortedPeople = (people) => {
+            let left = []
+            let right = []
+
+            people.forEach(p => {
+                if(p.profile) {
+                    left.push(p)
+                } else {
+                    right.push(p)
+                }
+            })
+
+            return [...left, ...right]
+        }
+
+
+        let directing = sortedCrewByPopularity.find(p => p.job.toLowerCase() === 'director') 
+        if(!directing) directing = sortedCrewByPopularity.find(p => p.known_for_department.toLowerCase() === 'directing') 
 
         const parseCrew = (crew) => {
             let jobs = []
@@ -75,7 +89,7 @@ class movieDB {
 
         const parseCast = (cast) => {
 
-            return cast.map(p => {
+            return cast.slice(0, 15).map(p => {
                 return {
                     id: p.id,
                     name: p.name,
@@ -101,12 +115,11 @@ class movieDB {
             poster: poster_path,
             production: production_companies.length ? production_companies[0].name : null,
             people: {
-                cast: cast.length ? parseCast(cast.slice(0, 15)) : null,
-                crew: crew.length ? parseCrew(sortedCrew) : null,
+                cast: cast.length ? sortedPeople(parseCast(cast)) : null,
+                crew: crew.length ? sortedPeople(parseCrew(sortedCrewByPopularity)) : null,
             }
         }
     }
-
 }
 
 export default movieDB

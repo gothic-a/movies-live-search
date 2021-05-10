@@ -32,8 +32,6 @@ const Movie = ({id, genres, title, runtime, budget, overview, poster, production
                         }
                     </ul>
                 </div>
-                
-
             </div>
         </div>
     )

@@ -1,11 +1,22 @@
 import { useEffect, useContext, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import storeContext from '../storeContext'
+
 import Movie from './Movie'
+import People from './People'
 import Spinner from './Spinner'
 
 import movieDB from '../services/movieDB'
+
+const Container = ({ movie }) => {
+    return (
+        <>
+            <Movie {...movie}/> 
+            <People people={movie.people} /> 
+        </>
+    )
+}
 
 const MovieInfo = () => {
     const movieService = new movieDB()
@@ -25,7 +36,9 @@ const MovieInfo = () => {
 
     return (
         <div className="movie-info">
-            { loading ? <Spinner /> : Object.keys(movie).length && <Movie {...movie}/>}
+            { loading ? <Spinner /> 
+                : Object.keys(movie).length 
+                    ? <Container movie={movie}/> : null } 
         </div>
     )
 }

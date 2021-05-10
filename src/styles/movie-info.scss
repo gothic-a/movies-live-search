@@ -75,4 +75,153 @@
             }
         }
     }
+
+    .movie-people {
+        width: 100%;
+
+        &-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 50px 0 35px 0;
+
+            h2 {
+                margin: 0;
+                text-transform: uppercase;
+                color: $main-color;
+                font-weight: 400;
+                font-size: 2em;
+            }
+
+            .switch {
+                display: flex;
+                border-radius: 3px;
+                border: 2px solid rgba($main-color, 1);
+                background-color: rgba($main-color, 1);
+                border-right: 3px solid rgba($main-color, 1);
+                border-left: 3px solid rgba($main-color, 1);
+                cursor: pointer;
+                user-select: none;
+
+                &.switch-cast {
+                    .cast {
+                        background-color: white;
+                        color: $main-color;
+                        font-weight: 500;
+                    }
+                }
+
+                &.switch-crew {
+                    .crew {
+                        background-color: white;
+                        color: $main-color;
+                        font-weight: 500;
+                    }
+                }
+
+                span {
+                    display: flex;
+                    padding: 7px 20px; 
+                    border-radius: 3px;
+                    text-transform: uppercase;
+                    color: white;
+                    background-color: transparent;
+                }
+            }
+        }
+
+        .cast-list {
+            display: flex;
+            width: 100%;
+            overflow-x: scroll;
+            align-items:initial;
+
+            &::-webkit-scrollbar {
+                height: 17px;
+        
+                &-track {
+                    background-color: rgba($main-color, .25);
+                    border-radius: 3px;
+                   
+                }
+        
+                &-thumb {
+                    background-color: rgba(white, 1);
+                    border: 2px solid rgba($main-color, .25);
+                    border-radius: 3px;
+        
+                    &:hover {
+                        background-color: rgba(white, 1);
+        
+                    }
+                }
+            }
+
+            .cast-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 18%;
+                padding: 0 25px 35px 25px;
+                color:rgba($main-color, 1);
+                justify-content: space-between;
+
+                &:nth-child(1) {
+                    padding-left: 0;
+                }
+
+                &:nth-last-child(1) {
+                    padding-right: 0;
+                }
+
+                .img-wrap {
+                    width: 100%;
+                    background-color: rgba($main-color, .2);
+                    border-radius: 3px;
+                    display: flex;
+                    overflow: hidden;
+                    align-items: center;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .person-info {
+                    display: flex;
+                    flex-direction: column;
+
+                    h3 {
+                        margin: 15px 0 10px 0;
+                        font-weight: 400;
+                        font-size: 1.3em;
+                        text-align: center;
+                        
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+
+                    span {
+                        font-weight: 500;
+                        opacity: .6;
+                        text-align: center;
+                    }
+
+                    .job-list {
+                        text-align: center;
+                        
+
+                        .job {
+                            font-weight: 500;
+                            opacity: .6;
+                            margin-bottom: 3px;
+                        }
+                    }
+                }
+
+               
+            }
+        }
+    }
 }

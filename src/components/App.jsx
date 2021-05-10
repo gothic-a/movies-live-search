@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useReducer, useEffect } from 'react'
 import {
     BrowserRouter as Router,
     Route,
@@ -11,12 +11,17 @@ import MoviesList from './MoviesList'
 
 import { reducer, initialState } from '../reducer'
 import storeContext from '../storeContext'
+import { setQueryHistory } from '../actions'
 
 import '../styles/common.scss'
 
 const App = () => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
+
+    useEffect(() => {
+        dispatch(setQueryHistory())
+    }, [])
 
     return (
         <Router>

@@ -1,3 +1,5 @@
+@import './search-dropdown.scss';
+
 .search-panel {
     width: 100%;
     position: relative;
@@ -52,10 +54,5 @@
                 border-color: rgba($main-color, .2)
             }
         }
-
-        .search-results-list {
-            display: flex;
-        }
-            
     }
 }

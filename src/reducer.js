@@ -1,7 +1,7 @@
 const initialState = {
     searchResults: [],
-    searchResultsVsisible: false,
     moviesList: [],
+    queryHistory: [],
     loading: true,
     movie: {},
 }
@@ -11,7 +11,6 @@ const reducer = (state, action) => {
         case 'SET_SEARCH_RESULTS':
             return {
                 ...state,
-                loading: false,
                 searchResults: action.payload.movies,
             }
         case 'SET_MOVIES_LIST':
@@ -19,7 +18,7 @@ const reducer = (state, action) => {
                 ...state,
                 loading: false,
                 page: action.payload.page,
-                moviesList: action.payload.movies,
+                moviesList: action.payload.movies.slice(0, 10),
             }
         case 'SET_MOVIE': 
             return {
@@ -27,15 +26,15 @@ const reducer = (state, action) => {
                 loading: false,
                 movie: action.payload,
             }
+        case 'SET_QUERY_HISTORY': 
+            return {
+                ...state,
+                queryHistory: action.payload
+            }
         case 'SET_LOADING': 
             return {
                 ...state,
                 loading: true,
-            }
-        case 'SET_SEARCH_RESULTS_VISIBLE': 
-            return {
-                ...state,
-                searchResultsVisible: action.payload,
             }
 
         default: 

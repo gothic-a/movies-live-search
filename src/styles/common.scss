@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Raleway:wght@300;400;500&display=swap');
+@import url('https://use.fontawesome.com/releases/v5.0.13/css/all.css');
 
-$main-color: rgb(62, 69, 78);
+$main-color: rgb(48, 52, 57);
 
 body {
     font-family: 'Noto Sans TC';
@@ -28,8 +29,7 @@ input, button {
 }
 
 @import './app.scss';
-@import './search.scss';
-@import './search-results.scss';
+@import './search/search.scss';
 @import './movies-list.scss';
 @import './movie-info.scss';
 @import './spinner.scss';

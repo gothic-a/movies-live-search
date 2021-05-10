@@ -1,12 +1,22 @@
-import { useContext } from 'react'
+import { useEffect, useState } from 'react'
+
 import { Link } from 'react-router-dom'
-import storeContext from '../storeContext'
-import NothingFound from './NothingFound'
-import Spinner from './Spinner'
 
-const SearchResultsList = ({ loading }) => {
+import { setQueryHistory } from '../actions'
 
-    const { state: { searchResults }, dispatch } = useContext(storeContext) 
+const SearchResultsList = ({ movies, dispatch }) => {
+
+    const [moviesList, setMoviesList] = useState()
+
+    useEffect(() => {
+        setMoviesList(renderMoviesList(movies))
+    }, [movies])
+
+    const onResultsClick = (e) => {
+        const id = e.target.closest('.results-item').dataset.id
+        const title = e.target.closest('.results-item').dataset.title
+        dispatch(setQueryHistory(title, id))
+    }
 
     const renderMoviesList = (data) => {
 
@@ -15,7 +25,8 @@ const SearchResultsList = ({ loading }) => {
                 <li 
                     className="results-item" 
                     key={idx} 
-                    data-id={item.id}>
+                    data-id={item.id}
+                    data-title={item.title}>
                     <Link 
                         to={`/movie/${item.id}`} 
                         className="results-item-link"
@@ -33,17 +44,13 @@ const SearchResultsList = ({ loading }) => {
         })
     }
 
-    const onListClick = () => dispatch({type: 'SET_SEARCH_RESULTS_VISIBLE', payload: false}) 
-
     return (
         <ul 
             className='search-results-list' 
-            onClick={onListClick}
+            onClick={onResultsClick}
         >
             { 
-                loading ? <Spinner /> 
-                    : searchResults.length ? renderMoviesList(searchResults) 
-                        : <NothingFound /> 
+                moviesList
             }
         </ul>
     )

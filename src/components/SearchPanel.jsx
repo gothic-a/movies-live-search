@@ -1,60 +1,67 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import useDebounce from '../utils/useDebounce'
 
 import storeContext from '../storeContext'
 import movieDB from '../services/movieDB'
+import { setQueryHistory } from '../actions'
 
-import SearchResultsList from './SearchResultsList'
+import SearchDropdown from './SearchDropdown'
 
 const SearchPanel = () => {
     const movieService = new movieDB()  
 
-    const { state: { searchResultsVisible }, dispatch } = useContext(storeContext)
+    const { dispatch } = useContext(storeContext)
 
     const [inputValue, setInputValue] = useState('')
+    const [dropdownVisible, setDropdownVisible] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    const inputRef = useRef(null)
 
     const searchRequest = useDebounce(inputValue)
     const history = useHistory()
 
-    const hideHandler = (e) => {
-       const panel = document.querySelector('.search-panel')
+    const hideDropdownHandler = (e) => {
+        if(inputRef.current && !inputRef.current.contains(e.target)) setDropdownVisible(false)
+    }
 
-        if(!panel.contains(e.target) ) {
-            dispatch({type: 'SET_SEARCH_RESULTS_VISIBLE', payload: false})
+    const inputFocusHandler = () => {
+        setDropdownVisible(true)
+        document.addEventListener('click', hideDropdownHandler)
+    }
 
-            console.log('click')
-        } 
-
+    const inputBlurHandler = () => {
+        document.removeEventListener('click', hideDropdownHandler)
     }
 
     const onSearchSubmit = (e) => {
         e.preventDefault()
-        if(inputValue) {
-            dispatch({type: 'SET_SEARCH_RESULTS_VISIBLE', payload: false})
-            dispatch({type: 'SET_SEARCH_RESULTS', payload: { movies:[] }})
 
+        if(inputValue) {
+            dispatch({type: 'SET_SEARCH_RESULTS', payload: { movies:[] }})
             history.push(`/movies?query=${inputValue}`)
+            dispatch(setQueryHistory(inputValue))
             setInputValue('')
+            inputRef.current.blur()
         }
     }   
 
     const onSearchInput = (e) => {
         setInputValue(e.target.value)
         setLoading(true)
-        dispatch({type: 'SET_SEARCH_RESULTS_VISIBLE', payload: !!e.target.value})
     }
 
     useEffect(() => {
-        document.body.addEventListener('click', hideHandler)
-
         async function fetchData() {
             if(searchRequest) {
+                setLoading(true)
                 const movies = await movieService.getMovies(searchRequest)
                 dispatch({type: 'SET_SEARCH_RESULTS', payload: movies})
                 setLoading(false)
+            } else {
+                dispatch({type: 'SET_SEARCH_RESULTS', payload: { movies: [] }})
             }
         }
 
@@ -62,7 +69,7 @@ const SearchPanel = () => {
     }, [searchRequest])
 
     return (
-        <div className={ searchResultsVisible ? 'search-panel show-results' : 'search-panel'}>
+        <div className={ dropdownVisible ? 'search-panel show-results' : 'search-panel'}>
             <form 
                 action="" 
                 className="search-panel-field" 
@@ -70,12 +77,21 @@ const SearchPanel = () => {
                 <input 
                     type="text" 
                     className="search-panel-input" 
+                    ref={inputRef}
                     value={inputValue} 
-                    onChange={onSearchInput} />
+                    onChange={onSearchInput} 
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
+                    />
                 <button className="btn" type="submit">search</button>
             </form>
    
-            { searchResultsVisible ? <SearchResultsList loading={loading}/> : null }
+            { 
+                dropdownVisible 
+                    && <SearchDropdown 
+                            loading={loading} 
+                            inputValue={inputValue} /> 
+            }
         </div>
     )
 }

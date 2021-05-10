@@ -1,0 +1,37 @@
+.search-query-history {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 3px 3px;
+
+    .history-item {
+        border-bottom: 1px solid rgba($main-color, .2);
+
+        &:nth-last-child(1) {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background-color: rgba($main-color, .1);
+        }
+        
+        a {
+            padding: 20px 35px;
+            display: flex;
+            align-items: center;
+
+            i {
+                margin-right: 25px;
+                font-size: 1.3em;
+                color: rgba($main-color, .6);
+            }
+
+            p {
+                margin: 0;
+                font-size: 1.1em;
+                letter-spacing: 1px;
+                color: $main-color;
+                font-family: 'Noto Sans TC', Arial;
+            }
+        }
+    }
+}
