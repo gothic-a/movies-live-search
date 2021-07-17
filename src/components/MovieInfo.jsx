@@ -25,13 +25,17 @@ const MovieInfo = () => {
 
     const [loading, setLoading] = useState(false)
 
-    useEffect( async () => {
-        setLoading(true)
+    useEffect( () => {
+        const fetchData = async () => {
+            setLoading(true)
 
-        const movie = await movieService.getMovie(id)
-        dispatch({type: 'SET_MOVIE', payload: movie})
+            const movie = await movieService.getMovie(id)
+            dispatch({type: 'SET_MOVIE', payload: movie})
+    
+            setLoading(false)
+        }
 
-        setLoading(false)
+        fetchData()
     }, [id])
 
     return (

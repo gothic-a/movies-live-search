@@ -14,15 +14,15 @@ const MoviesList = () => {
     const useQuery = () => new URLSearchParams(useLocation().search)
     const query = useQuery().get('query')
 
-    useEffect(async () => {
-        setLoading(true)
-        const movies = await movieService.getMovies(query)
-        dispatch({type: 'SET_MOVIES_LIST', payload: movies})
-        setLoading(false)
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            const movies = await movieService.getMovies(query)
+            dispatch({type: 'SET_MOVIES_LIST', payload: movies})
+            setLoading(false)
+        }
 
-        console.log(moviesList)
-
-        return () => console.log('sdf')
+        fetchData()
     }, [query])
 
     const renderMoviesList = (movies) => {
