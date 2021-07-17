@@ -14,6 +14,8 @@ class movieDB {
         let data = await fetch(url)
         data = await data.json()
 
+        console.log(data)
+
         return {
             page: data.page,
             movies: data.results,

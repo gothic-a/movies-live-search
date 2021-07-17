@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Raleway:wght@300;400;500&display=swap');
-@import url('https://use.fontawesome.com/releases/v5.0.13/css/all.css');
 
 $main-color: rgb(48, 52, 57);
 
@@ -34,3 +33,4 @@ input, button {
 @import './movie-info.scss';
 @import './spinner.scss';
 @import './nothing-found.scss';
+@import './home.scss';

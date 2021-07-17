@@ -1,0 +1,49 @@
+.home {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 55px;
+    opacity: .9;
+
+    i {
+        font-size: 2em;
+        margin-bottom: 25px;
+        animation: bounce 5s infinite;
+        color: $main-color;
+        transform: translateY(0)
+    }
+
+    @keyframes bounce {
+            
+
+        15% {
+            transform: translateY(-10px)
+        }
+
+        25% {
+            transform: translateY(-2px);
+        }
+
+        30% {
+            transform: translateY(-2px);
+        }
+
+        42% {
+            transform: translateY(-13px);
+        }
+
+        57% {
+            transform: translateY(0);
+        }
+        
+    }
+
+    &__text {
+        align-self: center;
+        font-size: 2em;
+        font-weight: 300;
+        letter-spacing: 1px;
+        color: $main-color;
+        text-transform: uppercase;
+    }
+}

@@ -20,6 +20,8 @@ const MoviesList = () => {
         dispatch({type: 'SET_MOVIES_LIST', payload: movies})
         setLoading(false)
 
+        console.log(moviesList)
+
         return () => console.log('sdf')
     }, [query])
 

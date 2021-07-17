@@ -8,6 +8,7 @@ import {
 import SearchPanel from './SearchPanel'
 import MovieInfo from './MovieInfo'
 import MoviesList from './MoviesList'
+import Home from './Home'
 
 import { reducer, initialState } from '../reducer'
 import storeContext from '../storeContext'
@@ -36,6 +37,11 @@ const App = () => {
                         <Route 
                             path="/movies" 
                             component={MoviesList}/>
+                            
+                        <Route 
+                            path="/" 
+                            component={Home}/>
+                            
                     </Switch>
                 </storeContext.Provider>
             </div>
